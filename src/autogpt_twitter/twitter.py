@@ -3,7 +3,19 @@ from __future__ import annotations
 
 import pandas as pd
 import tweepy
+import __init__ as cfg
 
+# Authenticating to twitter
+auth = tweepy.OAuth1UserHandler(cfg.twitter_api_key,
+                                cfg.twitter_api_key_secret,
+                                cfg.twitter_access_token,
+                                cfg.twitter_access_token_secret)
+
+api = tweepy.API(auth)
+
+stream = tweepy.Stream(cfg.twitter_api_key, cfg.twitter_api_key_secret,
+                       cfg.twitter_access_token,
+                       cfg.twitter_access_token_secret)
 
 def post_tweet(tweet: str) -> str:
     """Posts a tweet to twitter.
