@@ -26,7 +26,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         super().__init__()
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
-        self._description = "Twitter API integrations using Tweepy."
+        self._description = "Twitter API integrations using Tweepy. desojo/autogpt-twitter"
         self.twitter_consumer_key = str(os.getenv("TW_CONSUMER_KEY"))
         self.twitter_consumer_secret = str(os.getenv("TW_CONSUMER_SECRET"))
         self.twitter_access_token = str(os.getenv("TW_ACCESS_TOKEN"))
