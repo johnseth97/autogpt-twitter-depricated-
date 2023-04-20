@@ -6,14 +6,14 @@ import tweepy
 
 plugin = AutoGPTTwitter()
 
-plugin.auth = tweepy.OAuth1UserHandler(
+auth = tweepy.OAuth1UserHandler(
             plugin.twitter_consumer_key,
             plugin.twitter_consumer_secret,
             plugin.twitter_access_token,
             plugin.twitter_access_token_secret,
         )
 
-api = tweepy.API(plugin.auth)
+api = tweepy.API(auth)
 
 # Debug Printing
 print(plugin.twitter_consumer_key)
