@@ -1,8 +1,19 @@
 """This module contains functions for interacting with the Twitter API."""
 from __future__ import annotations
-
+from . import AutoGPTTwitter
 import pandas as pd
 import tweepy
+
+plugin = AutoGPTTwitter()
+
+plugin.auth = tweepy.OAuth1UserHandler(
+            plugin.twitter_consumer_key,
+            plugin.twitter_consumer_secret,
+            plugin.twitter_access_token,
+            plugin.twitter_access_token_secret,
+        )
+
+plugin.api = tweepy.API(plugin.auth)
 
 
 def post_tweet(tweet: str) -> str:
