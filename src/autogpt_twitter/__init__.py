@@ -5,12 +5,6 @@ from typing import Any, Dict, List, Optional, Tuple, TypedDict, TypeVar
 import tweepy
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
 
-from autogpt_twitter.twitter import (
-    get_mentions,
-    post_reply,
-    post_tweet,
-    search_twitter_user,
-)
 
 PromptGenerator = TypeVar("PromptGenerator")
 
@@ -234,6 +228,13 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         Returns:
             PromptGenerator: The prompt generator.
         """
+        from .twitter import (
+            get_mentions,
+            post_reply,
+            post_tweet,
+            search_twitter_user,
+        )
+
         prompt.add_command(
             "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, post_tweet
         )
