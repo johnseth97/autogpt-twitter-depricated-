@@ -9,3 +9,4 @@ build
 twine
 tweepy
 pandas
+auto_gpt_plugin_template

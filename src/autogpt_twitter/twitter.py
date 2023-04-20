@@ -1,61 +1,97 @@
-import __init__ as cfg
+"""This module contains functions for interacting with the Twitter API."""
+from __future__ import annotations
+
 import pandas as pd
 import tweepy
 
-_tweetID = []
-_tweets = []
 
-# Authenticating to twitter
-_auth = tweepy.OAuth1UserHandler(cfg.twitter_consumer_key,
-                                 cfg.twitter_consumer_secret,
-                                 cfg.twitter_access_token,
-                                 cfg.twitter_access_token_secret)
+def post_tweet(tweet: str) -> str:
+    """Posts a tweet to twitter.
 
-_api = tweepy.API(_auth)
-3
-_stream = tweepy.Stream(cfg.twitter_api_key, cfg.twitter_api_key_secret,
-                        cfg.twitter_access_token,
-                        cfg.twitter_access_token_secret)
+    Args:
+        tweet (str): The tweet to post.
 
+    Returns:
+        str: The tweet that was posted.
+    """
+    from autogpt_twitter import AutoGPTTwitter
 
-# Posts a tweet(tweet)
-def post_tweet(tweet):
+    plugin = AutoGPTTwitter()
+    _tweetID = plugin.api.update_status(status=tweet)
 
-    _tweetID = _api.update_status(status=tweet)
-
-    return f"Success! Tweet: {_tweetID.text}"  # Returns the most recent tweet
+    return f"Success! Tweet: {_tweetID.text}"
 
 
-# Posts a reply(tweet) to a target(tweet_id).
-def post_reply(tweet, tweet_id):
+def post_reply(tweet: str, tweet_id: int) -> str:
+    """Posts a reply to a tweet.
 
-    replyID = _api.update_status(status=tweet, in_reply_to_status_id=tweet_id,
-                                 auto_populate_reply_metadata=True)
+    Args:
+        tweet (str): The tweet to post.
+        tweet_id (int): The ID of the tweet to reply to.
 
-    return f"Success! Tweet: {replyID.text}"  # Returns the most recent reply
+    Returns:
+        str: The tweet that was posted.
+    """
+    from autogpt_twitter import AutoGPTTwitter
+
+    plugin = AutoGPTTwitter()
+
+    replyID = plugin.api.update_status(
+        status=tweet, in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True
+    )
+
+    return f"Success! Tweet: {replyID.text}"
 
 
-# Gets the most recent mention
-def get_mentions():
+def get_mentions() -> str | None:
+    """Gets the most recent mention.
 
-    _tweets = _api.mentions_timeline(tweet_mode="extended")
+    Args:
+        api (tweepy.API): The tweepy API object.
+
+    Returns:
+        str | None: The most recent mention.
+    """
+    from autogpt_twitter import AutoGPTTwitter
+
+    plugin = AutoGPTTwitter()
+
+    _tweets = plugin.api.mentions_timeline(tweet_mode="extended")
 
     for tweet in _tweets:
-        return f"@{tweet.user.screen_name} Replied: {tweet.full_text} Tweet ID: {tweet.id}"  # Returns most recent mention
+        return (
+            f"@{tweet.user.screen_name} Replied: {tweet.full_text}"
+            f" Tweet ID: {tweet.id}"
+        )  # Returns most recent mention
 
 
-# Searches a user's tweets given a number of items to retrive and returns a dataframe
-def search_twitter_user(targetUser, numOfItems):
+def search_twitter_user(target_user: str, num_of_items: int) -> str:
+    """Searches a user's tweets given a number of items to retrive and
+      returns a dataframe.
 
-    _tweets = tweepy.Cursor(_api.user_timeline, screen_name=targetUser,
-                            tweet_mode='extended').items(numOfItems)
+    Args:
+        target_user (str): The user to search.
+        num_of_items (int): The number of items to retrieve.
+        api (tweepy.API): The tweepy API object.
 
-    columns = ['Time', 'User', 'ID', 'Tweet']
+    Returns:
+        str: The dataframe containing the tweets.
+    """
+    from autogpt_twitter import AutoGPTTwitter
+
+    plugin = AutoGPTTwitter()
+
+    tweets = tweepy.Cursor(
+        plugin.api.user_timeline, screen_name=target_user, tweet_mode="extended"
+    ).items(num_of_items)
+
+    columns = ["Time", "User", "ID", "Tweet"]
     data = []
 
-    for tweet in _tweets:
-        data.append([tweet.created_at, tweet.user.screen_name,
-                     tweet.id, tweet.full_text])
+    for tweet in tweets:
+        data.append(
+            [tweet.created_at, tweet.user.screen_name, tweet.id, tweet.full_text]
+        )
 
     df = str(pd.DataFrame(data, columns=columns))
 

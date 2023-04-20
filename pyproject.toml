@@ -16,7 +16,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = ["abstract-singleton", "tweepy", "pandas"]
+dependencies = ["abstract-singleton", "tweepy", "pandas", "auto_gpt_plugin_template"]
 
 [project.urls]
 "Homepage" = "https://github.com/desojo/autogpt-twitter"

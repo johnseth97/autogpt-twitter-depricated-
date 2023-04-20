@@ -1,7 +1,16 @@
+"""Twitter API integrations using Tweepy."""
 import os
-from autogpt_twitter import twitter
-from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
-from abstract_singleton import AbstractSingleton, Singleton
+from typing import Any, Dict, List, Optional, Tuple, TypedDict, TypeVar
+
+import tweepy
+from auto_gpt_plugin_template import AutoGPTPluginTemplate
+
+from autogpt_twitter.twitter import (
+    get_mentions,
+    post_reply,
+    post_tweet,
+    search_twitter_user,
+)
 
 PromptGenerator = TypeVar("PromptGenerator")
 
@@ -11,7 +20,7 @@ class Message(TypedDict):
     content: str
 
 
-class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
+class AutoGPTTwitter(AutoGPTPluginTemplate):
     """
     Twitter API integrations using Tweepy
     """
@@ -21,9 +30,30 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
+        self.twitter_api_key = os.getenv("TW_API_KEY")
+        self.twitter_api_key_secret = os.getenv("TW_API_KEY_SECRET")
         self.twitter_consumer_key = os.getenv("TW_CONSUMER_KEY")
         self.twitter_consumer_secret = os.getenv("TW_CONSUMER_SECRET")
         self.twitter_access_token = os.getenv("TW_ACCESS_TOKEN")
+        self.twitter_access_token_secret = os.getenv("TW_ACCESS_TOKEN_SECRET")
+        self.tweet_id = []
+        self.tweets = []
+
+        # Authenticating to twitter
+        self.auth = tweepy.OAuth1UserHandler(
+            self.twitter_consumer_key,
+            self.twitter_consumer_secret,
+            self.twitter_access_token,
+            self.twitter_access_token_secret,
+        )
+
+        self.api = tweepy.API(self.auth)
+        self.stream = tweepy.Stream(
+            self.twitter_api_key,
+            self.twitter_api_key_secret,
+            self.twitter_access_token,
+            self.twitter_access_token_secret,
+        )
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
@@ -204,14 +234,21 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
-        prompt.add_command("post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"},
-                           twitter.post_tweet)
-        prompt.add_command("post_reply", "Post Twitter Reply",
-                           {"tweet_text": "<tweet_text>",
-                            "tweet_id": "<tweet_id>"}, twitter.post_reply)
-        prompt.add_command("get_mentions", "Get Twitter Mentions", {},
-                           twitter.get_mentions)
-        prompt.add_command("search_twitter", "Search Twitter",
-                           {"search_text": "<search_text>"}, twitter.search_twitter)
+        prompt.add_command(
+            "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, post_tweet
+        )
+        prompt.add_command(
+            "post_reply",
+            "Post Twitter Reply",
+            {"tweet_text": "<tweet_text>", "tweet_id": "<tweet_id>"},
+            post_reply,
+        )
+        prompt.add_command("get_mentions", "Get Twitter Mentions", {}, get_mentions)
+        prompt.add_command(
+            "search_twitter",
+            "Search Twitter",
+            {"search_text": "<search_text>"},
+            search_twitter_user,
+        )
 
         return prompt
