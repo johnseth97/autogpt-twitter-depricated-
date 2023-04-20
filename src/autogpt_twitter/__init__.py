@@ -8,7 +8,7 @@ import tweepy
 
 PromptGenerator = TypeVar("PromptGenerator")
 
-with open(Path(os.getcwd()) / ".env"), 'r') as fp:
+with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
     load_dotenv(stream=fp)
 
 
@@ -27,7 +27,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
-        self.twitter_api_key = os.getenv("TW_API_KEY")
+        self.twitter_api_key = str(os.getenv("TW_API_KEY"))
         self.twitter_api_key_secret = str(os.getenv("TW_API_KEY_SECRET"))
         self.twitter_consumer_key = str(os.getenv("TW_CONSUMER_KEY"))
         self.twitter_consumer_secret = str(os.getenv("TW_CONSUMER_SECRET"))
@@ -53,6 +53,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         )
 
         print(self.access_token)
+
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
