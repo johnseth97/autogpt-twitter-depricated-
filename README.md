@@ -2,14 +2,12 @@
 
 A plugin adding twitter API integration into Auto GPT
 
-## Twitter API Setup
+## Features(more coming soon!)
 
-1. Go to the [Twitter Dev Portal](https://developer.twitter.com/en/portal/dashboard)
-2. Delete any apps/projects that it creates for you
-3. Create a new project with whatever name you want
-4. Create a new app under said project with whatever name you want
-5. Under the app, edit user authentication settings and give it read/write perms.
-6. Grab the keys listed in installation instructions and save them for later
+- Post a tweet using the `post_tweet(tweet)` command
+- Post a reply to a specific tweet using the `post_reply(tweet, tweet_id)` command
+- Get recent mentions using the `get_mentions()` command
+- Search a user's recent tweets via username using the `search_twitter_user(targetUser, numOfItems) command
 
 ## Installation
 
@@ -30,9 +28,11 @@ TW_CLIENT_ID=
 TW_CLIENT_ID_SECRET=
 ```
 
-## Features(more coming soon!)
+## Twitter API Setup
 
-- Post a tweet using the `post_tweet(tweet)` command
-- Post a reply to a specific tweet using the `post_reply(tweet, tweet_id)` command
-- Get recent mentions using the `get_mentions()` command
-- Search a user's recent tweets via username using the `search_twitter_user(targetUser, numOfItems) command
+1. Go to the [Twitter Dev Portal](https://developer.twitter.com/en/portal/dashboard)
+2. Delete any apps/projects that it creates for you
+3. Create a new project with whatever name you want
+4. Create a new app under said project with whatever name you want
+5. Under the app, edit user authentication settings and give it read/write perms.
+6. Grab the keys listed in installation instructions and save them for later
