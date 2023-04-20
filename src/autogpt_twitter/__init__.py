@@ -26,11 +26,11 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         super().__init__()
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
-        self._description = "Twitter API integrations using Tweepy. desojo/autogpt-twitter"
-        self.twitter_consumer_key = str(os.getenv("TW_CONSUMER_KEY"))
-        self.twitter_consumer_secret = str(os.getenv("TW_CONSUMER_SECRET"))
-        self.twitter_access_token = str(os.getenv("TW_ACCESS_TOKEN"))
-        self.twitter_access_token_secret = str(os.getenv("TW_ACCESS_TOKEN_SECRET"))
+        self._description = "Twitter API integrations using Tweepy."
+        self.twitter_consumer_key = os.getenv("TW_CONSUMER_KEY")
+        self.twitter_consumer_secret = os.getenv("TW_CONSUMER_SECRET")
+        self.twitter_access_token = os.getenv("TW_ACCESS_TOKEN")
+        self.twitter_access_token_secret = os.getenv("TW_ACCESS_TOKEN_SECRET")
         self.tweet_id = []
         self.tweets = []
 
@@ -43,20 +43,12 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         )
 
         self.api = tweepy.API(self.auth)
-
         self.stream = tweepy.Stream(
             self.twitter_consumer_key,
             self.twitter_consumer_secret,
             self.twitter_access_token,
             self.twitter_access_token_secret,
         )
-
-        print(self.twitter_consumer_key)
-        print(self.twitter_consumer_secret)
-        print(self.twitter_access_token)
-        print(self.twitter_access_token_secret)
-        print(self.auth)
-        print(self.api)
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
@@ -237,22 +229,28 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         Returns:
             PromptGenerator: The prompt generator.
         """
+        from .twitter import (
+            get_mentions,
+            post_reply,
+            post_tweet,
+            search_twitter_user,
+        )
 
         prompt.add_command(
-            "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, twitter.post_tweet
+            "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, post_tweet
         )
         prompt.add_command(
             "post_reply",
             "Post Twitter Reply",
             {"tweet_text": "<tweet_text>", "tweet_id": "<tweet_id>"},
-            twitter.post_reply
+            post_reply,
         )
-        prompt.add_command("get_mentions", "Get Twitter Mentions", {}, twitter.get_mentions)
+        prompt.add_command("get_mentions", "Get Twitter Mentions", {}, get_mentions)
         prompt.add_command(
             "search_twitter",
             "Search Twitter",
             {"search_text": "<search_text>"},
-            twitter.search_twitter_user
+            search_twitter_user,
         )
 
         return prompt
