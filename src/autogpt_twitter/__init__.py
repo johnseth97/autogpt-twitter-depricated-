@@ -6,13 +6,6 @@ from pathlib import Path
 import os
 import tweepy
 
-from autogpt_twitter.twitter import (
-            get_mentions,
-            post_reply,
-            post_tweet,
-            search_twitter_user,
-        )
-
 PromptGenerator = TypeVar("PromptGenerator")
 
 with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
@@ -246,20 +239,20 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         """
 
         prompt.add_command(
-            "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, post_tweet
+            "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, twitter.post_tweet
         )
         prompt.add_command(
             "post_reply",
             "Post Twitter Reply",
             {"tweet_text": "<tweet_text>", "tweet_id": "<tweet_id>"},
-            post_reply,
+            twitter.post_reply
         )
-        prompt.add_command("get_mentions", "Get Twitter Mentions", {}, get_mentions)
+        prompt.add_command("get_mentions", "Get Twitter Mentions", {}, twitter.get_mentions)
         prompt.add_command(
             "search_twitter",
             "Search Twitter",
             {"search_text": "<search_text>"},
-            search_twitter_user,
+            twitter.search_twitter_user
         )
 
         return prompt
