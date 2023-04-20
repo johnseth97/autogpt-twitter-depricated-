@@ -38,22 +38,21 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
 
         # Authenticating to twitter
         self.auth = tweepy.OAuth1UserHandler(
-            self.twitter_consumer_key,
-            self.twitter_consumer_secret,
-            self.twitter_access_token,
-            self.twitter_access_token_secret,
+            str(self.twitter_consumer_key),
+            str(self.twitter_consumer_secret),
+            str(self.twitter_access_token),
+            str(self.twitter_access_token_secret),
         )
 
         self.api = tweepy.API(self.auth)
         self.stream = tweepy.Stream(
-            self.twitter_api_key,
-            self.twitter_api_key_secret,
-            self.twitter_access_token,
-            self.twitter_access_token_secret,
+            str(self.twitter_api_key),
+            str(self.twitter_api_key_secret),
+            str(self.twitter_access_token),
+            str(self.twitter_access_token_secret),
         )
 
         print(self.access_token)
-
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
