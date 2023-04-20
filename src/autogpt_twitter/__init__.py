@@ -1,6 +1,6 @@
 """Twitter API integrations using Tweepy."""
 from typing import Any, Dict, List, Optional, Tuple, TypedDict, TypeVar
-from dotenv import dotenv_values, load_dotenv
+from dotenv import load_dotenv
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
 from pathlib import Path
 import os
@@ -8,9 +8,8 @@ import tweepy
 
 PromptGenerator = TypeVar("PromptGenerator")
 
-config = dotenv_values(str(Path(os.getcwd()) / ".env"))
-load_dotenv(stream=config)
-
+with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
+    load_dotenv(stream=fp)
 
 class Message(TypedDict):
     role: str
