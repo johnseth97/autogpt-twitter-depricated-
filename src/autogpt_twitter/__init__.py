@@ -35,20 +35,20 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self.tweets = []
 
         # Authenticating to twitter
-        self.auth = tweepy.OAuth1UserHandler(
-            self.twitter_consumer_key,
-            self.twitter_consumer_secret,
-            self.twitter_access_token,
-            self.twitter_access_token_secret,
-        )
+        #self.auth = tweepy.OAuth1UserHandler(
+        #    self.twitter_consumer_key,
+        #    self.twitter_consumer_secret,
+        #    self.twitter_access_token,
+        #    self.twitter_access_token_secret,
+        #)
 
-        self.api = tweepy.API(self.auth)
-        self.stream = tweepy.Stream(
-            self.twitter_consumer_key,
-            self.twitter_consumer_secret,
-            self.twitter_access_token,
-            self.twitter_access_token_secret,
-        )
+        #self.api = tweepy.API(self.auth)
+        #self.stream = tweepy.Stream(
+        #    self.twitter_consumer_key,
+        #    self.twitter_consumer_secret,
+        #    self.twitter_access_token,
+        #    self.twitter_access_token_secret,
+        #)
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
