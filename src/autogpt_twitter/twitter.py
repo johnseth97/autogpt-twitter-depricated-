@@ -6,22 +6,8 @@ import tweepy
 
 plugin = AutoGPTTwitter()
 
-auth = tweepy.OAuth1UserHandler(
-            plugin.twitter_consumer_key,
-            plugin.twitter_consumer_secret,
-            plugin.twitter_access_token,
-            plugin.twitter_access_token_secret,
-        )
-
-api = tweepy.API(auth)
-
-# Debug Printing
-print(plugin.twitter_consumer_key)
-print(plugin.twitter_consumer_secret)
-print(plugin.twitter_access_token)
-print(plugin.twitter_access_token_secret)
-print(auth)
-print(api)
+print(plugin.auth)
+print(plugin.api)
 
 
 def post_tweet(tweet: str) -> str:
@@ -34,7 +20,7 @@ def post_tweet(tweet: str) -> str:
         str: The tweet that was posted.
     """
 
-    _tweetID = api.update_status(status=tweet)
+    _tweetID = plugin.api.update_status(status=tweet)
 
     return f"Success! Tweet: {_tweetID.text}"
 
@@ -50,7 +36,7 @@ def post_reply(tweet: str, tweet_id: int) -> str:
         str: The tweet that was posted.
     """
 
-    replyID = api.update_status(
+    replyID = plugin.api.update_status(
         status=tweet, in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True
     )
 
@@ -67,7 +53,7 @@ def get_mentions() -> str | None:
         str | None: The most recent mention.
     """
 
-    _tweets = api.mentions_timeline(tweet_mode="extended")
+    _tweets = plugin.api.mentions_timeline(tweet_mode="extended")
 
     for tweet in _tweets:
         return (
@@ -90,7 +76,7 @@ def search_twitter_user(target_user: str, num_of_items: int) -> str:
     """
 
     tweets = tweepy.Cursor(
-        api.user_timeline, screen_name=target_user, tweet_mode="extended"
+        plugin.api.user_timeline, screen_name=target_user, tweet_mode="extended"
     ).items(num_of_items)
 
     columns = ["Time", "User", "ID", "Tweet"]
