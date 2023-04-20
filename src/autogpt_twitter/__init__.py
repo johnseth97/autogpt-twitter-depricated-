@@ -1,12 +1,16 @@
 """Twitter API integrations using Tweepy."""
 import os
+from dotenv import load_dotenv
 from typing import Any, Dict, List, Optional, Tuple, TypedDict, TypeVar
+
 
 import tweepy
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
 
 
 PromptGenerator = TypeVar("PromptGenerator")
+
+load_dotenv(verbose=True)
 
 
 class Message(TypedDict):
