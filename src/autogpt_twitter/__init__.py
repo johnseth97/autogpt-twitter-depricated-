@@ -1,5 +1,5 @@
 import os
-import twitter
+from autogpt_twitter import twitter
 from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
 from abstract_singleton import AbstractSingleton, Singleton
 
@@ -21,9 +21,9 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
-        self.twitter_consumer_key = os.getenv("TWITTER_CONSUMER_KEY")
-        self.twitter_consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
-        self.twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN")
+        self.twitter_consumer_key = os.getenv("TW_CONSUMER_KEY")
+        self.twitter_consumer_secret = os.getenv("TW_CONSUMER_SECRET")
+        self.twitter_access_token = os.getenv("TW_ACCESS_TOKEN")
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
@@ -204,9 +204,9 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
-        prompt.add_command("post_tweet", "Send Tweet", {"tweet_text": "<tweet_text>"},
+        prompt.add_command("post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"},
                            twitter.post_tweet)
-        prompt.add_command("post_reply", "Send Twitter Reply",
+        prompt.add_command("post_reply", "Post Twitter Reply",
                            {"tweet_text": "<tweet_text>",
                             "tweet_id": "<tweet_id>"}, twitter.post_reply)
         prompt.add_command("get_mentions", "Get Twitter Mentions", {},
