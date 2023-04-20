@@ -50,9 +50,6 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
             self.twitter_access_token_secret,
         )
 
-        print(self.access_token)
-
-
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
         handle the on_response method.
