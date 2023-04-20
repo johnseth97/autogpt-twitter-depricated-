@@ -1,9 +1,6 @@
-"""This is a template for Auto-GPT plugins."""
 import os
 import twitter
 from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
-
-
 from abstract_singleton import AbstractSingleton, Singleton
 
 PromptGenerator = TypeVar("PromptGenerator")
@@ -28,38 +25,6 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         self.twitter_consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
         self.twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN")
 
-    def add_command(
-            self,
-            command_label: str,
-            command_name: str,
-            args=None,
-            function: Optional[Callable] = None,
-        ) -> None:
-            """
-            Add a command to the commands list with a label, name, and optional arguments.
-
-            Args:
-                command_label (str): The label of the command.
-                command_name (str): The name of the command.
-                args (dict, optional): A dictionary containing argument names and their
-                values. Defaults to None.
-                function (callable, optional): A callable function to be called when
-                    the command is executed. Defaults to None.
-            """
-            if args is None:
-                args = {}
-
-            command_args = {arg_key: arg_value for arg_key, arg_value in args.items()}
-
-            command = {
-                "label": command_label,
-                "name": command_name,
-                "args": command_args,
-                "function": function,
-            }
-
-            self.commands.append(command)
-
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
         handle the on_response method.
@@ -77,21 +42,6 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         Returns:
             bool: True if the plugin can handle the post_prompt method."""
         return False
-
-    def post_prompt(self, prompt: PromptGenerator) -> PromptGenerator:
-        """This method is called just after the generate_prompt is called,
-            but actually before the prompt is generated.
-        Args:
-            prompt (PromptGenerator): The prompt generator.
-        Returns:
-            PromptGenerator: The prompt generator.
-        """
-        prompt.add_command("post_tweet", "Send Tweet", {"tweet_text": "<tweet_text>"}, twitter.post_tweet)
-        prompt.add_command("post_reply", "Send Reply", {"tweet_text": "<tweet_text>", "tweet_id": "<tweet_id>"}, twitter.post_reply)
-        prompt.add_command("get_mentions", "Get Mentions", {}, twitter.get_mentions)
-        prompt.add_command("search_twitter", "Search Twitter", {"search_text": "<search_text>"}, twitter.search_twitter)
-
-        return prompt
 
     def can_handle_on_planning(self) -> bool:
         """This method is called to check that the plugin can
@@ -245,3 +195,23 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
             str: The resulting response.
         """
         return None
+
+    def post_prompt(self, prompt: PromptGenerator) -> PromptGenerator:
+        """This method is called just after the generate_prompt is called,
+            but actually before the prompt is generated.
+        Args:
+            prompt (PromptGenerator): The prompt generator.
+        Returns:
+            PromptGenerator: The prompt generator.
+        """
+        prompt.add_command("post_tweet", "Send Tweet", {"tweet_text": "<tweet_text>"},
+                           twitter.post_tweet)
+        prompt.add_command("post_reply", "Send Twitter Reply",
+                           {"tweet_text": "<tweet_text>",
+                            "tweet_id": "<tweet_id>"}, twitter.post_reply)
+        prompt.add_command("get_mentions", "Get Twitter Mentions", {},
+                           twitter.get_mentions)
+        prompt.add_command("search_twitter", "Search Twitter",
+                           {"search_text": "<search_text>"}, twitter.search_twitter)
+
+        return prompt
