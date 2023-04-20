@@ -14,7 +14,7 @@ def post_tweet(tweet: str) -> str:
     Returns:
         str: The tweet that was posted.
     """
-    from autogpt_twitter import AutoGPTTwitter
+    from . import AutoGPTTwitter
 
     plugin = AutoGPTTwitter()
     _tweetID = plugin.api.update_status(status=tweet)
@@ -32,7 +32,7 @@ def post_reply(tweet: str, tweet_id: int) -> str:
     Returns:
         str: The tweet that was posted.
     """
-    from autogpt_twitter import AutoGPTTwitter
+    from . import AutoGPTTwitter
 
     plugin = AutoGPTTwitter()
 
@@ -52,7 +52,7 @@ def get_mentions() -> str | None:
     Returns:
         str | None: The most recent mention.
     """
-    from autogpt_twitter import AutoGPTTwitter
+    from . import AutoGPTTwitter
 
     plugin = AutoGPTTwitter()
 
@@ -77,7 +77,7 @@ def search_twitter_user(target_user: str, num_of_items: int) -> str:
     Returns:
         str: The dataframe containing the tweets.
     """
-    from autogpt_twitter import AutoGPTTwitter
+    from . import AutoGPTTwitter
 
     plugin = AutoGPTTwitter()
 
