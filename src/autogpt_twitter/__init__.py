@@ -46,8 +46,8 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
 
         self.api = tweepy.API(self.auth)
         self.stream = tweepy.Stream(
-            self.twitter_api_key,
-            self.twitter_api_key_secret,
+            self.twitter_consumer_key,
+            self.twitter_consumer_key_secret,
             self.twitter_access_token,
             self.twitter_access_token_secret,
         )
