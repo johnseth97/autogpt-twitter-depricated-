@@ -57,6 +57,8 @@ def search_twitter_user(targetUser, numOfItems):
         data.append([tweet.created_at, tweet.user.screen_name,
                      tweet.id, tweet.full_text])
 
-    df = pd.DataFrame(data, columns=columns)
+    df = str(pd.DataFrame(data, columns=columns))
 
-    return str(df)  # Prints a dataframe object containing the Time, User, ID, and Tweet
+    print(df)
+
+    return df  # Prints a dataframe object containing the Time, User, ID, and Tweet
