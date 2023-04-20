@@ -8,7 +8,7 @@ import tweepy
 
 PromptGenerator = TypeVar("PromptGenerator")
 
-with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
+with open(Path(os.getcwd()) / ".env"), 'r') as fp:
     load_dotenv(stream=fp)
 
 
@@ -28,28 +28,28 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
         self.twitter_api_key = os.getenv("TW_API_KEY")
-        self.twitter_api_key_secret = os.getenv("TW_API_KEY_SECRET")
-        self.twitter_consumer_key = os.getenv("TW_CONSUMER_KEY")
-        self.twitter_consumer_secret = os.getenv("TW_CONSUMER_SECRET")
-        self.twitter_access_token = os.getenv("TW_ACCESS_TOKEN")
-        self.twitter_access_token_secret = os.getenv("TW_ACCESS_TOKEN_SECRET")
+        self.twitter_api_key_secret = str(os.getenv("TW_API_KEY_SECRET"))
+        self.twitter_consumer_key = str(os.getenv("TW_CONSUMER_KEY"))
+        self.twitter_consumer_secret = str(os.getenv("TW_CONSUMER_SECRET"))
+        self.twitter_access_token = str(os.getenv("TW_ACCESS_TOKEN"))
+        self.twitter_access_token_secret = str(os.getenv("TW_ACCESS_TOKEN_SECRET"))
         self.tweet_id = []
         self.tweets = []
 
         # Authenticating to twitter
         self.auth = tweepy.OAuth1UserHandler(
-            str(self.twitter_consumer_key),
-            str(self.twitter_consumer_secret),
-            str(self.twitter_access_token),
-            str(self.twitter_access_token_secret),
+            self.twitter_consumer_key,
+            self.twitter_consumer_secret,
+            self.twitter_access_token,
+            self.twitter_access_token_secret,
         )
 
         self.api = tweepy.API(self.auth)
         self.stream = tweepy.Stream(
-            str(self.twitter_api_key),
-            str(self.twitter_api_key_secret),
-            str(self.twitter_access_token),
-            str(self.twitter_access_token_secret),
+            self.twitter_api_key,
+            self.twitter_api_key_secret,
+            self.twitter_access_token,
+            self.twitter_access_token_secret,
         )
 
         print(self.access_token)
