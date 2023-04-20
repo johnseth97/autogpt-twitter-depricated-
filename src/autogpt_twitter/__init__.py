@@ -65,7 +65,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         handle the post_prompt method.
         Returns:
             bool: True if the plugin can handle the post_prompt method."""
-        return False
+        return True
 
     def can_handle_on_planning(self) -> bool:
         """This method is called to check that the plugin can
