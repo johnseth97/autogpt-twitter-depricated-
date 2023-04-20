@@ -19,8 +19,6 @@ def post_tweet(tweet: str) -> str:
 
     _tweetID = plugin.api.update_status(status=tweet)
 
-    print(_tweetID)
-
     return f"Success! Tweet: {_tweetID.text}"
 
 
