@@ -9,7 +9,7 @@ A plugin adding twitter API integration into Auto GPT
 3. Create a new project with whatever name you want
 4. Create a new app under said project with whatever name you want
 5. Under the app, edit user authentication settings and give it read/write perms.
-6. Grab the keys listed in installation instructions
+6. Grab the keys listed in installation instructions and save them for later
 
 ## Installation
 
