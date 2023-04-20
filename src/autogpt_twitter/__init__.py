@@ -1,16 +1,15 @@
 """Twitter API integrations using Tweepy."""
-import os
-from dotenv import load_dotenv
 from typing import Any, Dict, List, Optional, Tuple, TypedDict, TypeVar
-
-
-import tweepy
+from dotenv import load_dotenv
 from auto_gpt_plugin_template import AutoGPTPluginTemplate
-
+from pathlib import Path
+import os
+import tweepy
 
 PromptGenerator = TypeVar("PromptGenerator")
 
-load_dotenv(verbose=True)
+with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
+    load_dotenv(stream=fp)
 
 
 class Message(TypedDict):
@@ -28,8 +27,6 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
-        self.twitter_api_key = os.getenv("TW_API_KEY")
-        self.twitter_api_key_secret = os.getenv("TW_API_KEY_SECRET")
         self.twitter_consumer_key = os.getenv("TW_CONSUMER_KEY")
         self.twitter_consumer_secret = os.getenv("TW_CONSUMER_SECRET")
         self.twitter_access_token = os.getenv("TW_ACCESS_TOKEN")
@@ -47,8 +44,8 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
 
         self.api = tweepy.API(self.auth)
         self.stream = tweepy.Stream(
-            self.twitter_api_key,
-            self.twitter_api_key_secret,
+            self.twitter_consumer_key,
+            self.twitter_consumer_secret,
             self.twitter_access_token,
             self.twitter_access_token_secret,
         )
