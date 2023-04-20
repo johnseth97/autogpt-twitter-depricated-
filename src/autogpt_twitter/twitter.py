@@ -15,6 +15,14 @@ plugin.auth = tweepy.OAuth1UserHandler(
 
 api = tweepy.API(plugin.auth)
 
+# Debug Printing
+print(plugin.twitter.consumer_key)
+print(plugin.twitter.consumer_secret)
+print(plugin.twitter.access_token)
+print(plugin.twitter.access_token_secret)
+print(plugin.auth)
+print(api)
+
 
 def post_tweet(tweet: str) -> str:
     """Posts a tweet to twitter.
