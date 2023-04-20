@@ -16,10 +16,10 @@ plugin.auth = tweepy.OAuth1UserHandler(
 api = tweepy.API(plugin.auth)
 
 # Debug Printing
-print(plugin.twitter.consumer_key)
-print(plugin.twitter.consumer_secret)
-print(plugin.twitter.access_token)
-print(plugin.twitter.access_token_secret)
+print(plugin.twitter_consumer_key)
+print(plugin.twitter_consumer_secret)
+print(plugin.twitter_access_token)
+print(plugin.twitter_access_token_secret)
 print(plugin.auth)
 print(api)
 
