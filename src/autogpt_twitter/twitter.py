@@ -6,8 +6,8 @@ _tweetID = []
 _tweets = []
 
 # Authenticating to twitter
-_auth = tweepy.OAuth1UserHandler(cfg.twitter_api_key,
-                                 cfg.twitter_api_key_secret,
+_auth = tweepy.OAuth1UserHandler(cfg.twitter_consumer_key,
+                                 cfg.twitter_consumer_secret,
                                  cfg.twitter_access_token,
                                  cfg.twitter_access_token_secret)
 
