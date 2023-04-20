@@ -24,7 +24,7 @@ print(plugin.auth)
 print(api)
 
 
-def post_tweet(tweet: str) -> str:
+def post_tweet(tweet):
     """Posts a tweet to twitter.
 
     Args:
