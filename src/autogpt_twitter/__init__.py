@@ -6,6 +6,13 @@ from pathlib import Path
 import os
 import tweepy
 
+from autogpt_twitter.twitter import (
+            get_mentions,
+            post_reply,
+            post_tweet,
+            search_twitter_user,
+        )
+
 PromptGenerator = TypeVar("PromptGenerator")
 
 with open(str(Path(os.getcwd()) / ".env"), 'r') as fp:
@@ -43,6 +50,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         )
 
         self.api = tweepy.API(self.auth)
+
         self.stream = tweepy.Stream(
             self.twitter_consumer_key,
             self.twitter_consumer_secret,
@@ -56,7 +64,6 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         print(self.twitter_access_token_secret)
         print(self.auth)
         print(self.api)
-
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
@@ -237,12 +244,6 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         Returns:
             PromptGenerator: The prompt generator.
         """
-        from .twitter import (
-            get_mentions,
-            post_reply,
-            post_tweet,
-            search_twitter_user,
-        )
 
         prompt.add_command(
             "post_tweet", "Post Tweet", {"tweet_text": "<tweet_text>"}, post_tweet

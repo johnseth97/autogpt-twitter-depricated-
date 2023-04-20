@@ -6,9 +6,6 @@ import tweepy
 
 plugin = AutoGPTTwitter()
 
-print(plugin.auth)
-print(plugin.api)
-
 
 def post_tweet(tweet: str) -> str:
     """Posts a tweet to twitter.
