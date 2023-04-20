@@ -1,2 +1,3 @@
-# (Coming Soon) Auto-GPT-Plugin-Template
-A starting point for developing your own plug-in for Auto-GPT
+# (Coming Soon) autogpt-twitter
+
+A plugin adding twitter API integration into Auto GPT
