@@ -1,4 +1,4 @@
-import config as cfg
+import __init__ as cfg
 import pandas as pd
 import tweepy
 
@@ -47,17 +47,16 @@ def get_mentions():
 # Searches a user's tweets given a number of items to retrive and returns a dataframe
 def search_twitter_user(targetUser, numOfItems):
 
-    _tweets = tweepy.Cursor(_api.user_timeline, screen_name=targetUser, tweet_mode='extended').items(numOfItems)
+    _tweets = tweepy.Cursor(_api.user_timeline, screen_name=targetUser,
+                            tweet_mode='extended').items(numOfItems)
 
     columns = ['Time', 'User', 'ID', 'Tweet']
     data = []
 
     for tweet in _tweets:
-        data.append([tweet.created_at, tweet.user.screen_name, tweet.id, tweet.full_text])
+        data.append([tweet.created_at, tweet.user.screen_name,
+                     tweet.id, tweet.full_text])
 
     df = pd.DataFrame(data, columns=columns)
 
     return str(df)  # Prints a dataframe object containing the Time, User, ID, and Tweet
-
-
-search_twitter_user(targetUser="DesoTheHusky", numOfItems=10)
