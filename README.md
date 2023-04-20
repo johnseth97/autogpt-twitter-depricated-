@@ -20,6 +20,8 @@ A plugin adding twitter API integration into Auto GPT
 ### TWITTER API
 ################################################################################
 
+# Consumer Keys are also known as API keys on the dev portal
+
 TW_CONSUMER_KEY=
 TW_CONSUMER_SECRET=
 TW_ACCESS_TOKEN=
