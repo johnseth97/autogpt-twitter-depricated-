@@ -27,8 +27,6 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self._name = "autogpt-twitter"
         self._version = "0.1.0"
         self._description = "Twitter API integrations using Tweepy."
-        self.twitter_api_key = str(os.getenv("TW_API_KEY"))
-        self.twitter_api_key_secret = str(os.getenv("TW_API_KEY_SECRET"))
         self.twitter_consumer_key = str(os.getenv("TW_CONSUMER_KEY"))
         self.twitter_consumer_secret = str(os.getenv("TW_CONSUMER_SECRET"))
         self.twitter_access_token = str(os.getenv("TW_ACCESS_TOKEN"))
@@ -47,7 +45,7 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         self.api = tweepy.API(self.auth)
         self.stream = tweepy.Stream(
             self.twitter_consumer_key,
-            self.twitter_consumer_key_secret,
+            self.twitter_consumer_secret,
             self.twitter_access_token,
             self.twitter_access_token_secret,
         )
