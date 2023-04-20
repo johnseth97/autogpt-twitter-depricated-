@@ -1,5 +1,6 @@
 """This is a template for Auto-GPT plugins."""
 import os
+import twitter
 from typing import Any, Dict, List, Optional, Tuple, TypeVar, TypedDict
 
 
@@ -26,7 +27,38 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         self.twitter_consumer_key = os.getenv("TWITTER_CONSUMER_KEY")
         self.twitter_consumer_secret = os.getenv("TWITTER_CONSUMER_SECRET")
         self.twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN")
-        self.twitter_access_token_secret = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
+
+    def add_command(
+            self,
+            command_label: str,
+            command_name: str,
+            args=None,
+            function: Optional[Callable] = None,
+        ) -> None:
+            """
+            Add a command to the commands list with a label, name, and optional arguments.
+
+            Args:
+                command_label (str): The label of the command.
+                command_name (str): The name of the command.
+                args (dict, optional): A dictionary containing argument names and their
+                values. Defaults to None.
+                function (callable, optional): A callable function to be called when
+                    the command is executed. Defaults to None.
+            """
+            if args is None:
+                args = {}
+
+            command_args = {arg_key: arg_value for arg_key, arg_value in args.items()}
+
+            command = {
+                "label": command_label,
+                "name": command_name,
+                "args": command_args,
+                "function": function,
+            }
+
+            self.commands.append(command)
 
     def can_handle_on_response(self) -> bool:
         """This method is called to check that the plugin can
@@ -54,7 +86,12 @@ class AutoGPTTwitter(AbstractSingleton, metaclass=Singleton):
         Returns:
             PromptGenerator: The prompt generator.
         """
-        pass
+        prompt.add_command("post_tweet", "Send Tweet", {"tweet_text": "<tweet_text>"}, twitter.post_tweet)
+        prompt.add_command("post_reply", "Send Reply", {"tweet_text": "<tweet_text>", "tweet_id": "<tweet_id>"}, twitter.post_reply)
+        prompt.add_command("get_mentions", "Get Mentions", {}, twitter.get_mentions)
+        prompt.add_command("search_twitter", "Search Twitter", {"search_text": "<search_text>"}, twitter.search_twitter)
+
+        return prompt
 
     def can_handle_on_planning(self) -> bool:
         """This method is called to check that the plugin can

@@ -44,8 +44,8 @@ def get_mentions():
         return f"@{tweet.user.screen_name} Replied: {tweet.full_text} Tweet ID: {tweet.id}"  # Returns most recent mention
 
 
-# Searches twitter over the past 30 days
-def search_twitter(targetUser, numOfItems):
+# Searches a user's tweets given a number of items to retrive and returns a dataframe
+def search_twitter_user(targetUser, numOfItems):
 
     _tweets = tweepy.Cursor(_api.user_timeline, screen_name=targetUser, tweet_mode='extended').items(numOfItems)
 
@@ -60,4 +60,4 @@ def search_twitter(targetUser, numOfItems):
     return str(df)  # Prints a dataframe object containing the Time, User, ID, and Tweet
 
 
-search_twitter(targetUser="DesoTheHusky", numOfItems=10)
+search_twitter_user(targetUser="DesoTheHusky", numOfItems=10)
