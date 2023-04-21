@@ -247,9 +247,9 @@ class AutoGPTTwitter(AutoGPTPluginTemplate):
         )
         prompt.add_command("get_mentions", "Get Twitter Mentions", {}, get_mentions)
         prompt.add_command(
-            "search_twitter",
+            "search_twitter_user",
             "Search Twitter",
-            {"search_text": "<search_text>"},
+            {"target_user": "<target_user>",  "number_of_tweets": "<number_of_tweets"},
             search_twitter_user,
         )
 

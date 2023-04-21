@@ -7,7 +7,7 @@ import tweepy
 plugin = AutoGPTTwitter()
 
 
-def post_tweet(tweet: str) -> str:
+def post_tweet(tweet_text: str) -> str:
     """Posts a tweet to twitter.
 
     Args:
@@ -17,12 +17,12 @@ def post_tweet(tweet: str) -> str:
         str: The tweet that was posted.
     """
 
-    _tweetID = plugin.api.update_status(status=tweet)
+    _tweetID = plugin.api.update_status(status=tweet_text)
 
     return f"Success! Tweet: {_tweetID.text}"
 
 
-def post_reply(tweet: str, tweet_id: int) -> str:
+def post_reply(tweet_text: str, tweet_id: int) -> str:
     """Posts a reply to a tweet.
 
     Args:
@@ -34,7 +34,8 @@ def post_reply(tweet: str, tweet_id: int) -> str:
     """
 
     replyID = plugin.api.update_status(
-        status=tweet, in_reply_to_status_id=tweet_id, auto_populate_reply_metadata=True
+        status=tweet_text, in_reply_to_status_id=tweet_id,
+        auto_populate_reply_metadata=True
     )
 
     return f"Success! Tweet: {replyID.text}"
@@ -59,7 +60,7 @@ def get_mentions() -> str | None:
         )  # Returns most recent mention
 
 
-def search_twitter_user(target_user: str, num_of_items: int) -> str:
+def search_twitter_user(target_user: str, number_of_tweets: int) -> str:
     """Searches a user's tweets given a number of items to retrive and
       returns a dataframe.
 
@@ -74,7 +75,7 @@ def search_twitter_user(target_user: str, num_of_items: int) -> str:
 
     tweets = tweepy.Cursor(
         plugin.api.user_timeline, screen_name=target_user, tweet_mode="extended"
-    ).items(num_of_items)
+    ).items(number_of_tweets)
 
     columns = ["Time", "User", "ID", "Tweet"]
     data = []
